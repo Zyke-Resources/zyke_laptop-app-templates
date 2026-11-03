@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tic-tac-toe</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <!-- The SDK sets window.Laptop and the --laptop-* theme variables. It only loads in game, mock.js finds a copy in a browser -->
+    <script src="https://cfx-nui-zyke_laptop/nui/sdk/laptop.js"></script>
+    <script type="module" src="app.js"></script>
+</head>
+<body class="is-loading">
+    <form class="card lobby" id="lobby">
+        <h1 data-text="lobby:title"></h1>
+        <p class="dim" data-text="lobby:text"></p>
+        <input class="entry" id="table" type="text" maxlength="48" autocomplete="off" data-placeholder="lobby:placeholder">
+        <p class="error" id="lobby-error" hidden></p>
+        <button class="button button-primary" id="join" type="submit" data-text="lobby:join"></button>
+    </form>
+
+    <main class="game" id="game" hidden>
+        <header class="game-header">
+            <h1 id="table-name"></h1>
+            <button class="button" id="leave" type="button" data-text="game:leave"></button>
+        </header>
+
+        <div class="players">
+            <p id="player-x"></p>
+            <p class="dim" id="score"></p>
+            <p id="player-o"></p>
+        </div>
+
+        <div class="board" id="board"></div>
+
+        <p class="status" id="status"></p>
+
+        <footer class="actions">
+            <button class="button" id="again" type="button" data-text="game:again" hidden></button>
+            <button class="button" id="cast" type="button" data-text="cast:start" hidden></button>
+        </footer>
+    </main>
+</body>
+</html>

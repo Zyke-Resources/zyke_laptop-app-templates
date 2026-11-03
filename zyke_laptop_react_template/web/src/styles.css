@@ -1,0 +1,126 @@
+/* Every colour and shape comes from the --laptop-* variables the SDK sets, so the app follows each OS in light and dark.
+   The fallbacks only matter before the laptop answered. In-game NUI is Chromium 103: tint with rgba(), no color-mix() */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--laptop-window-bg, #242424);
+    color: var(--laptop-window-fg, #ffffff);
+    font-family: var(--laptop-font, sans-serif);
+    font-size: 14px;
+}
+
+h1,
+h2,
+p {
+    margin: 0;
+}
+
+h1 {
+    font-size: 20px;
+}
+
+h2 {
+    font-size: 15px;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 16px;
+    background: var(--laptop-card-bg, rgba(255, 255, 255, 0.08));
+    border: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    border-radius: var(--laptop-radius, 12px);
+}
+
+.dim {
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}
+
+.error {
+    color: var(--laptop-error, #e01b24);
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 16px;
+    margin: 0;
+}
+
+.stats dt {
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}
+
+.stats dd {
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.entry,
+.button {
+    height: var(--laptop-control-height, 34px);
+    padding: 0 12px;
+    border: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    border-radius: var(--laptop-radius-control, 6px);
+    color: inherit;
+    font: inherit;
+}
+
+.entry {
+    width: 100%;
+    background: var(--laptop-entry-bg, rgba(255, 255, 255, 0.1));
+    outline: none;
+}
+
+.entry:focus {
+    border-color: var(--laptop-accent, #78aeed);
+}
+
+.button {
+    background: var(--laptop-button-bg, rgba(255, 255, 255, 0.1));
+    cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+    background: var(--laptop-hover-bg, rgba(255, 255, 255, 0.07));
+}
+
+.button.suggested {
+    background: var(--laptop-accent-bg, #3584e4);
+    border-color: transparent;
+    color: var(--laptop-accent-fg, #ffffff);
+}
+
+.button.suggested:hover:not(:disabled) {
+    filter: brightness(1.08);
+}
+
+.button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}

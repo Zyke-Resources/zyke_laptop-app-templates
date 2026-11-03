@@ -1,0 +1,163 @@
+/* Every colour and shape comes from the OS through the --laptop-* variables, so the app matches Facade, Lumen, Solace
+   and Veil in light and dark. The fallbacks are Veil's dark theme */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 20px;
+    font-family: var(--laptop-font, system-ui, sans-serif);
+    font-size: 14px;
+    line-height: 1.5;
+    background: var(--laptop-window-bg, #242424);
+    color: var(--laptop-window-fg, #ffffff);
+}
+
+body.is-loading {
+    visibility: hidden;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+h1,
+p {
+    margin: 0;
+}
+
+h1 {
+    font-size: 18px;
+}
+
+.dim {
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 360px;
+    padding: 18px;
+    background: var(--laptop-card-bg, rgba(255, 255, 255, 0.08));
+    border: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    border-radius: var(--laptop-radius, 12px);
+}
+
+.button,
+.entry {
+    height: var(--laptop-control-height, 34px);
+    padding: 0 14px;
+    font: inherit;
+    color: inherit;
+    border: 1px solid transparent;
+    border-radius: var(--laptop-radius-control, 6px);
+}
+
+.button {
+    cursor: pointer;
+    background: var(--laptop-button-bg, rgba(255, 255, 255, 0.1));
+}
+
+.button:hover {
+    background: var(--laptop-hover-bg, rgba(255, 255, 255, 0.07));
+}
+
+.button-primary,
+.button-primary:hover {
+    background: var(--laptop-accent-bg, #3584e4);
+    color: var(--laptop-accent-fg, #ffffff);
+}
+
+.button:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+.entry {
+    background: var(--laptop-entry-bg, rgba(255, 255, 255, 0.1));
+    border-color: var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    outline: none;
+}
+
+.entry:focus {
+    border-color: var(--laptop-accent, #78aeed);
+}
+
+.error {
+    color: var(--laptop-error, #e01b24);
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    max-width: 360px;
+}
+
+.game-header,
+.players {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.players p:last-child {
+    text-align: right;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    width: 100%;
+}
+
+.cell {
+    height: 96px;
+    font: inherit;
+    font-size: 40px;
+    font-weight: 700;
+    color: inherit;
+    border: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    border-radius: var(--laptop-radius-control, 6px);
+    background: var(--laptop-card-bg, rgba(255, 255, 255, 0.08));
+    cursor: pointer;
+}
+
+.cell:disabled {
+    cursor: default;
+}
+
+.cell.is-x {
+    color: var(--laptop-accent, #78aeed);
+}
+
+.cell.is-o {
+    color: var(--laptop-warning, #cd9309);
+}
+
+.status {
+    font-weight: 600;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}

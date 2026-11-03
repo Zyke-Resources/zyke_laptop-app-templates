@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My App</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <!-- The SDK sets window.Laptop and the --laptop-* theme variables. It only loads in game, mock.js finds a copy in a browser -->
+    <script src="https://cfx-nui-zyke_laptop/nui/sdk/laptop.js"></script>
+    <script type="module" src="app.js"></script>
+</head>
+<body class="is-loading">
+    <main class="app">
+        <header class="header">
+            <h1 id="greeting" data-text="greeting:loading"></h1>
+            <p class="dim" data-text="greeting:text"></p>
+        </header>
+
+        <section class="card">
+            <h2 data-text="notify:title"></h2>
+            <button class="button button-primary" id="notify" type="button" data-text="notify:button"></button>
+        </section>
+
+        <section class="card">
+            <h2 data-text="message:title"></h2>
+            <p id="message" data-text="message:waiting"></p>
+        </section>
+
+        <section class="card">
+            <h2 data-text="note:title"></h2>
+            <input class="entry" id="note" type="text" maxlength="200" data-placeholder="note:placeholder">
+            <p class="dim" data-text="note:text"></p>
+        </section>
+
+        <footer class="dim" id="theme"></footer>
+    </main>
+</body>
+</html>

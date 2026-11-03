@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Corner Supply</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <!-- The SDK sets window.Laptop and the --laptop-* theme variables. It only loads in game, mock.js finds a copy in a browser -->
+    <script src="https://cfx-nui-zyke_laptop/nui/sdk/laptop.js"></script>
+    <script type="module" src="app.js"></script>
+</head>
+<body class="is-loading">
+    <header class="topbar">
+        <span class="brand" data-text="site:title"></span>
+    </header>
+
+    <main class="content">
+        <h1 data-text="site:title"></h1>
+        <p class="lead" data-text="site:tagline"></p>
+        <p class="error" id="error" role="alert" hidden></p>
+        <!-- app.js fills one card per product from the template below -->
+        <ul class="products" id="products"></ul>
+    </main>
+
+    <template id="product-card">
+        <li class="card">
+            <div class="card-text">
+                <h2 class="card-name"></h2>
+                <p class="card-description"></p>
+                <p class="card-price"></p>
+            </div>
+            <div class="card-actions">
+                <div class="stepper">
+                    <button class="step" type="button" data-step="-1">&minus;</button>
+                    <span class="quantity">1</span>
+                    <button class="step" type="button" data-step="1">+</button>
+                </div>
+                <button class="button button-primary buy" type="button"></button>
+            </div>
+        </li>
+    </template>
+</body>
+</html>

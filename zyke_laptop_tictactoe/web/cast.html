@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tic-tac-toe</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="cast.css">
+    <!-- The viewer SDK: LaptopCast hands this page what server.lua let through. It only loads in game -->
+    <script src="https://cfx-nui-zyke_laptop/nui/sdk/laptop-cast.js"></script>
+    <script src="cast.js" defer></script>
+</head>
+<body>
+    <main class="scoreboard" hidden>
+        <h1 id="title"></h1>
+        <div class="scores">
+            <div class="player is-x">
+                <p class="mark">X</p>
+                <p class="name" id="name-x"></p>
+                <p class="wins" id="wins-x"></p>
+            </div>
+            <div class="board" id="board"></div>
+            <div class="player is-o">
+                <p class="mark">O</p>
+                <p class="name" id="name-o"></p>
+                <p class="wins" id="wins-o"></p>
+            </div>
+        </div>
+        <p class="footer" id="footer"></p>
+    </main>
+</body>
+</html>

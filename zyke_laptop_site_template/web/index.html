@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Site</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <!-- The SDK sets window.Laptop and the --laptop-* theme variables. It only loads in game, mock.js finds a copy in a browser -->
+    <script src="https://cfx-nui-zyke_laptop/nui/sdk/laptop.js"></script>
+    <script type="module" src="app.js"></script>
+</head>
+<body class="is-loading">
+    <header class="topbar">
+        <button class="brand" type="button" data-path="/" data-text="site:title"></button>
+        <nav class="nav">
+            <button type="button" data-path="/" data-text="nav:home"></button>
+            <button type="button" data-path="/about" data-text="nav:about"></button>
+            <button type="button" data-path="/contact" data-text="nav:contact"></button>
+        </nav>
+    </header>
+
+    <!-- One section per address, app.js shows the one whose data-page matches the path -->
+    <main class="content">
+        <section data-page="/" hidden>
+            <h1 data-text="site:title"></h1>
+            <p class="lead" data-text="site:tagline"></p>
+            <button class="button button-primary" type="button" data-path="/about" data-text="home:button"></button>
+        </section>
+
+        <section data-page="/about" hidden>
+            <h1 data-text="about:title"></h1>
+            <p class="lead" data-text="about:text"></p>
+        </section>
+
+        <section data-page="/contact" hidden>
+            <h1 data-text="contact:title"></h1>
+            <dl class="details">
+                <dt data-text="contact:phone"></dt>
+                <dd id="phone"></dd>
+                <dt data-text="contact:address"></dt>
+                <dd id="address"></dd>
+            </dl>
+            <button class="button" type="button" id="directory" data-text="contact:directory"></button>
+        </section>
+
+        <section data-page="notFound" hidden>
+            <h1 data-text="notFound:title"></h1>
+            <p class="lead" id="not-found-text"></p>
+            <button class="button button-primary" type="button" data-path="/" data-text="notFound:button"></button>
+        </section>
+    </main>
+</body>
+</html>

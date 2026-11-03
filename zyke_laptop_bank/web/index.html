@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fleeca Banking</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="app.css">
+    <script src="https://cfx-nui-zyke_laptop/nui/sdk/laptop.js"></script>
+    <script type="module" src="app.js"></script>
+</head>
+<body class="is-loading">
+    <header class="summary">
+        <div>
+            <p class="label" data-text="page:accountHolder"></p>
+            <p class="holder" id="holder"></p>
+        </div>
+        <div class="balance-box">
+            <p class="label" data-text="page:balance"></p>
+            <p class="balance" id="balance"></p>
+        </div>
+    </header>
+
+    <main class="columns">
+        <div class="stack">
+            <form class="card transfer" id="transfer" novalidate>
+                <h2 data-text="page:transfer"></h2>
+                <label>
+                    <span data-text="page:recipient"></span>
+                    <input name="targetId" type="text" inputmode="numeric" autocomplete="off" data-placeholder="page:recipientPlaceholder">
+                </label>
+                <label>
+                    <span data-text="page:amount"></span>
+                    <input name="amount" type="text" inputmode="numeric" autocomplete="off" placeholder="0">
+                </label>
+                <label>
+                    <span data-text="page:note"></span>
+                    <input name="note" type="text" autocomplete="off" data-placeholder="page:notePlaceholder">
+                </label>
+                <p class="form-error" id="form-error" hidden></p>
+                <button class="button" type="submit" id="send" data-text="page:send"></button>
+            </form>
+
+            <section class="card">
+                <h2 data-text="page:bills"></h2>
+                <ul class="bills" id="bills"></ul>
+                <p class="form-error" id="bill-error" hidden></p>
+            </section>
+        </div>
+
+        <section class="card history">
+            <h2 data-text="page:history"></h2>
+            <ul class="transactions" id="transactions"></ul>
+        </section>
+    </main>
+
+    <div class="page-error" id="page-error" hidden>
+        <p id="page-error-text"></p>
+        <button class="button" type="button" id="retry" data-text="page:retry"></button>
+    </div>
+</body>
+</html>

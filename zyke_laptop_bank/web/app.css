@@ -1,0 +1,253 @@
+/* The SDK sets the --laptop-* variables from the OS's theme, so the page matches every OS in light and dark. The
+   fallbacks only matter when the page is opened on its own */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    padding: 20px;
+    font-family: var(--laptop-font, system-ui, sans-serif);
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--laptop-window-fg, #ffffff);
+    background: var(--laptop-window-bg, #242424);
+}
+
+body.is-loading main,
+body.is-loading .summary {
+    visibility: hidden;
+}
+
+p,
+h2 {
+    margin: 0;
+}
+
+h2 {
+    margin-bottom: 14px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.label {
+    font-size: 12px;
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}
+
+.summary {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.holder {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.balance-box {
+    text-align: right;
+}
+
+.balance {
+    font-size: 28px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: minmax(220px, 300px) 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+@media (max-width: 600px) {
+    .columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.card {
+    padding: 16px;
+    border: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    border-radius: var(--laptop-radius, 12px);
+    background: var(--laptop-card-bg, rgba(255, 255, 255, 0.08));
+}
+
+.transfer label {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.transfer label span {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}
+
+input {
+    width: 100%;
+    height: var(--laptop-control-height, 34px);
+    padding: 0 10px;
+    font: inherit;
+    color: inherit;
+    border: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    border-radius: var(--laptop-radius-control, 6px);
+    background: var(--laptop-entry-bg, rgba(255, 255, 255, 0.1));
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--laptop-accent-bg, #3584e4);
+}
+
+.button {
+    width: 100%;
+    height: var(--laptop-control-height, 34px);
+    padding: 0 14px;
+    font: inherit;
+    font-weight: 600;
+    color: var(--laptop-accent-fg, #ffffff);
+    border: 0;
+    border-radius: var(--laptop-radius-control, 6px);
+    background: var(--laptop-accent-bg, #3584e4);
+    cursor: pointer;
+}
+
+.button:hover {
+    filter: brightness(1.08);
+}
+
+.button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.bills {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bills li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-top: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+}
+
+.bills li:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.bills .title {
+    flex: 1;
+    min-width: 0;
+}
+
+.bills .button {
+    width: auto;
+    flex-shrink: 0;
+}
+
+.bills .paid {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--laptop-success, #26a269);
+}
+
+#bill-error {
+    margin: 12px 0 0;
+}
+
+.form-error {
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--laptop-error, #e01b24);
+}
+
+.transactions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.transactions li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+}
+
+.transactions li:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.transactions .title {
+    font-weight: 500;
+}
+
+.transactions .meta {
+    font-size: 12px;
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+    overflow-wrap: anywhere;
+}
+
+.transactions .empty {
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}
+
+.amount {
+    flex-shrink: 0;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.amount.is-in {
+    color: var(--laptop-success, #26a269);
+}
+
+.page-error {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px;
+    text-align: center;
+    background: var(--laptop-window-bg, #242424);
+}
+
+.page-error[hidden] {
+    display: none;
+}
+
+.page-error .button {
+    width: auto;
+}

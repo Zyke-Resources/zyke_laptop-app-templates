@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Notes</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <!-- The SDK sets window.Laptop and the --laptop-* theme variables. It only loads in game, mock.js finds a copy in a browser -->
+    <script src="https://cfx-nui-zyke_laptop/nui/sdk/laptop.js"></script>
+    <script type="module" src="app.js"></script>
+</head>
+<body class="is-loading">
+    <header class="toolbar">
+        <button class="button" id="new" type="button" data-text="toolbar:new"></button>
+        <button class="button" id="open" type="button" data-text="toolbar:open"></button>
+        <button class="button button-primary" id="save" type="button" data-text="toolbar:save"></button>
+        <button class="button" id="save-as" type="button" data-text="toolbar:saveAs"></button>
+    </header>
+
+    <textarea class="editor" id="editor" spellcheck="false" data-placeholder="editor:placeholder"></textarea>
+
+    <footer class="status">
+        <span id="name"></span>
+        <span class="dim" id="status"></span>
+    </footer>
+</body>
+</html>

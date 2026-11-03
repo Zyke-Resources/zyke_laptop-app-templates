@@ -1,0 +1,169 @@
+/* Every colour and shape comes from the OS through the --laptop-* variables, so the site matches each OS's browser in
+   light and dark. The fallbacks are Veil's dark theme */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--laptop-font, system-ui, sans-serif);
+    font-size: 15px;
+    line-height: 1.6;
+    background: var(--laptop-view-bg, #1e1e1e);
+    color: var(--laptop-view-fg, #ffffff);
+}
+
+/* Hidden until the text arrived, so the locale keys never flash */
+body.is-loading {
+    visibility: hidden;
+}
+
+h1,
+h2,
+p {
+    margin: 0;
+}
+
+h1 {
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+}
+
+.topbar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 32px;
+    background: var(--laptop-window-bg, #242424);
+    border-bottom: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+}
+
+.brand {
+    padding: 6px 0;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.content {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 32px;
+}
+
+.lead {
+    font-size: 17px;
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}
+
+.button {
+    height: var(--laptop-control-height, 34px);
+    padding: 0 16px;
+    cursor: pointer;
+    background: var(--laptop-button-bg, rgba(255, 255, 255, 0.1));
+    border: 0;
+    border-radius: var(--laptop-radius-control, 6px);
+}
+
+.button:hover {
+    background: var(--laptop-hover-bg, rgba(255, 255, 255, 0.07));
+}
+
+.button-primary {
+    background: var(--laptop-accent-bg, #3584e4);
+    color: var(--laptop-accent-fg, #ffffff);
+}
+
+.button-primary:hover {
+    background: var(--laptop-accent-bg, #3584e4);
+    filter: brightness(1.1);
+}
+
+.content > .lead {
+    margin: 8px 0 24px;
+}
+
+.error {
+    margin-bottom: 16px;
+    color: var(--laptop-error, #e01b24);
+}
+
+.error[hidden] {
+    display: none;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    background: var(--laptop-card-bg, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    border-radius: var(--laptop-radius, 10px);
+}
+
+.card-name {
+    margin: 0;
+    font-size: 17px;
+}
+
+.card-description,
+.card-price {
+    margin: 4px 0 0;
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}
+
+.card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.step {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    cursor: pointer;
+    background: var(--laptop-button-bg, rgba(255, 255, 255, 0.1));
+    border: 0;
+    border-radius: var(--laptop-radius-control, 6px);
+}
+
+.buy {
+    white-space: nowrap;
+}
+
+.quantity {
+    min-width: 20px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+button:disabled {
+    cursor: default;
+    opacity: 0.5;
+}

@@ -1,0 +1,98 @@
+/* Every colour and shape comes from the OS through the --laptop-* variables, so the app matches Facade, Lumen, Solace
+   and Veil in light and dark. The fallbacks are Veil's dark theme */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-family: var(--laptop-font, system-ui, sans-serif);
+    font-size: 14px;
+    line-height: 1.5;
+    background: var(--laptop-window-bg, #242424);
+    color: var(--laptop-window-fg, #ffffff);
+}
+
+/* Hidden until the text arrived, so the locale keys never flash */
+body.is-loading {
+    visibility: hidden;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px;
+    border-bottom: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    background: var(--laptop-headerbar-bg, #303030);
+}
+
+.button {
+    height: var(--laptop-control-height, 34px);
+    padding: 0 14px;
+    font: inherit;
+    color: inherit;
+    border: 0;
+    border-radius: var(--laptop-radius-control, 6px);
+    background: var(--laptop-button-bg, rgba(255, 255, 255, 0.1));
+    cursor: pointer;
+}
+
+.button:hover {
+    background: var(--laptop-hover-bg, rgba(255, 255, 255, 0.07));
+}
+
+.button-primary,
+.button-primary:hover {
+    background: var(--laptop-accent-bg, #3584e4);
+    color: var(--laptop-accent-fg, #ffffff);
+}
+
+.button:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+.editor {
+    flex: 1;
+    width: 100%;
+    padding: 14px 16px;
+    font-family: var(--laptop-font-mono, "Laptop Mono", monospace);
+    font-size: 13px;
+    line-height: 1.6;
+    color: inherit;
+    border: 0;
+    outline: none;
+    resize: none;
+    background: var(--laptop-view-bg, #1e1e1e);
+}
+
+.status {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-top: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+}
+
+.status #name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.status .is-error {
+    color: var(--laptop-error, #e01b24);
+}
+
+.dim {
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}

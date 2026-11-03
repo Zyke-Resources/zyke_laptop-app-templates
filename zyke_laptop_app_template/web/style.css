@@ -1,0 +1,112 @@
+/* Every colour and shape comes from the OS through the --laptop-* variables, so the app matches Facade, Lumen, Solace
+   and Veil in light and dark. The fallbacks are Veil's dark theme */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--laptop-font, system-ui, sans-serif);
+    font-size: 14px;
+    line-height: 1.5;
+    background: var(--laptop-window-bg, #242424);
+    color: var(--laptop-window-fg, #ffffff);
+}
+
+/* Hidden until the text arrived, so the locale keys never flash */
+body.is-loading {
+    visibility: hidden;
+}
+
+h1,
+h2,
+p {
+    margin: 0;
+}
+
+h1 {
+    font-size: 22px;
+}
+
+h2 {
+    font-size: 14px;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 16px;
+    background: var(--laptop-card-bg, rgba(255, 255, 255, 0.08));
+    border: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    border-radius: var(--laptop-radius, 12px);
+}
+
+.dim {
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}
+
+.button,
+.entry {
+    height: var(--laptop-control-height, 34px);
+    padding: 0 14px;
+    font: inherit;
+    color: inherit;
+    border: 1px solid transparent;
+    border-radius: var(--laptop-radius-control, 6px);
+}
+
+.button {
+    cursor: pointer;
+    background: var(--laptop-button-bg, rgba(255, 255, 255, 0.1));
+}
+
+.button:hover {
+    background: var(--laptop-hover-bg, rgba(255, 255, 255, 0.07));
+}
+
+.button-primary {
+    background: var(--laptop-accent-bg, #3584e4);
+    color: var(--laptop-accent-fg, #ffffff);
+}
+
+.button-primary:hover {
+    background: var(--laptop-accent-bg, #3584e4);
+    filter: brightness(1.1);
+}
+
+.button:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+.entry {
+    width: 100%;
+    background: var(--laptop-entry-bg, rgba(255, 255, 255, 0.1));
+    border-color: var(--laptop-borders, rgba(255, 255, 255, 0.15));
+    outline: none;
+}
+
+.entry:focus {
+    border-color: var(--laptop-accent, #78aeed);
+}

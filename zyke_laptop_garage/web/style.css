@@ -1,0 +1,175 @@
+/* Every colour and shape comes from the laptop's --laptop-* variables, so the app matches each OS in light and dark.
+   The fallbacks are only for a normal browser */
+:root {
+    --bg: var(--laptop-window-bg, #242424);
+    --fg: var(--laptop-window-fg, #ffffff);
+    --dim: var(--laptop-dim-fg, rgba(255, 255, 255, 0.6));
+    --card: var(--laptop-card-bg, rgba(255, 255, 255, 0.06));
+    --line: var(--laptop-borders, rgba(255, 255, 255, 0.14));
+    --hover: var(--laptop-hover-bg, rgba(255, 255, 255, 0.07));
+    --button: var(--laptop-button-bg, rgba(255, 255, 255, 0.1));
+    --entry: var(--laptop-entry-bg, rgba(255, 255, 255, 0.08));
+    --accent: var(--laptop-accent, #3584e4);
+    --success: var(--laptop-success, #26a269);
+    --warning: var(--laptop-warning, #cd9309);
+    --error: var(--laptop-error, #e01b24);
+    --radius: var(--laptop-radius, 12px);
+    --radius-control: var(--laptop-radius-control, 6px);
+    --control-height: var(--laptop-control-height, 34px);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 16px;
+    font-family: var(--laptop-font, system-ui, sans-serif);
+    font-size: 14px;
+    background: var(--bg);
+    color: var(--fg);
+}
+
+/* Hidden until the text arrived, so the keys never flash */
+body.is-loading {
+    visibility: hidden;
+}
+
+.toolbar {
+    display: flex;
+    gap: 8px;
+}
+
+.search,
+.button {
+    height: var(--control-height);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-control);
+    font: inherit;
+    color: inherit;
+}
+
+.search {
+    flex: 1;
+    min-width: 0;
+    padding: 0 12px;
+    background: var(--entry);
+    outline: none;
+}
+
+.search:focus {
+    border-color: var(--accent);
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 12px;
+    background: var(--button);
+    cursor: pointer;
+}
+
+.button:hover {
+    background: var(--hover);
+}
+
+.button.is-hidden {
+    visibility: hidden;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.summary {
+    margin: 14px 0 8px;
+    color: var(--dim);
+    font-size: 13px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 52px;
+    padding: 8px 12px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+/* A number plate: dark text on a light plate in every theme */
+.plate {
+    flex: none;
+    min-width: 92px;
+    padding: 3px 8px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    background: #f4f4ef;
+    color: #1b2a63;
+    font-family: var(--laptop-font-mono, monospace);
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.04em;
+}
+
+.name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.state {
+    flex: none;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.state.stored {
+    color: var(--success);
+    background: rgba(38, 162, 105, 0.15);
+}
+
+.state.out {
+    color: var(--warning);
+    background: rgba(205, 147, 9, 0.15);
+}
+
+.state.impounded {
+    color: var(--error);
+    background: rgba(224, 27, 36, 0.15);
+}
+
+.message {
+    padding: 40px 16px;
+    text-align: center;
+    color: var(--dim);
+}
+
+.message .button {
+    color: var(--fg);
+}
