@@ -1088,6 +1088,7 @@ function ZykeLaptopServerExports:RegisterMdtWeapon(identifier, serial, modelLabe
 ---@field payments? {payees?: string[]} @ Payees this app may use, such as "society:fleeca"; every allowed kind when left out
 ---@field rooms? SdkRoomsRegistration
 ---@field cast? SdkCastRegistration @ Apps only
+---@field terminal? SdkTerminalRegistration @ Apps only. An app with a valid command needs no ui
 ---@field access? SdkAccessRules
 ---@field price? {amount: integer, currency: "bank" | "crypto" | "either", payee?: string}
 ---@field permissions? SdkPermission[]
@@ -1103,6 +1104,54 @@ function ZykeLaptopServerExports:RegisterMdtWeapon(identifier, serial, modelLabe
 ---@field messageBytes? integer
 ---@field rate? {count: integer, rate: number}
 ---@field join? fun(plyId: integer, room: string, data: any): boolean, any
+
+-- Commands the app adds to the Terminal
+---@class SdkTerminalRegistration
+---@field launch? string @ Command line the app's icon runs in a new Terminal window, starting with one of its commands
+---@field commands SdkTerminalCommandRegistration[] @ 32 at most
+
+-- One command: run is a server command, program a page the Terminal runs hidden. Exactly one of them
+---@class SdkTerminalCommandRegistration
+---@field name string @ Lower case letters, digits, _ and -, up to 32. Not a built-in command, unique across resources
+---@field usage? string @ Shown by help, the name when left out. Up to 80 characters
+---@field description? string @ Up to 120 characters
+---@field run? fun(term: SdkTerminalSession, args: string[]) @ Runs in a thread of its own, the session ends when it returns
+---@field program? string @ A page inside the registering resource or an https:// address
+
+-- Text for the Terminal: a string (lines split on \n), a segment or a list of segments and strings making one line
+---@alias SdkTerminalText string | SdkTerminalSegment | (string | SdkTerminalSegment)[]
+---@alias SdkTerminalTone "dim" | "accent" | "error" | "success" | "warning" | "bold" | "path" | "user"
+
+---@class SdkTerminalSegment
+---@field text string
+---@field tone? SdkTerminalTone
+---@field color? string @ "#rgb" or "#rrggbb"
+---@field bg? string @ "#rgb" or "#rrggbb"
+
+---@class SdkTerminalChoice
+---@field label string
+---@field hint? string
+---@field disabled? boolean
+
+-- What a server command's run function gets. After the session ended every call does nothing and questions answer
+-- nil at once
+---@class SdkTerminalSession
+---@field plyId integer
+---@field command string
+---@field args string[]
+---@field cwd string
+---@field os LaptopOsId
+---@field cols integer
+---@field rows integer
+---@field account SdkAccount
+---@field print fun(value: SdkTerminalText, tone?: SdkTerminalTone) @ The tone applies to a plain string
+---@field status fun(value?: SdkTerminalText) @ One live line under the output, nil clears it
+---@field clear fun()
+---@field ask fun(prompt: SdkTerminalText, opts?: {secret?: boolean, initial?: string}): string? @ Yields, nil when cancelled or after Config.Sdk.terminal.askTimeout
+---@field choose fun(prompt: SdkTerminalText, options: (string | SdkTerminalChoice)[], opts?: {initial?: integer}): integer? @ Yields, the 1-based index
+---@field confirm fun(question: SdkTerminalText, initial?: boolean): boolean? @ Yields
+---@field sleep fun(ms: integer): boolean @ False when the session ended meanwhile
+---@field cancelled fun(): boolean
 
 ---@class SdkCastRegistration
 ---@field ui string @ A page inside the registering resource
@@ -1182,6 +1231,40 @@ function ZykeLaptopServerExports:RegisterMdtWeapon(identifier, serial, modelLabe
 ---@field bucket? string @ Rate bucket shared with other handlers, "<feature>:<op>" when left out
 ---@field registration? boolean @ False skips the registration check, true when left out
 
+-- A parsed terminal block as the registry keeps it
+---@class SdkTerminalField
+---@field launch? string
+---@field commands SdkTerminalCommand[]
+
+---@class SdkTerminalCommand
+---@field name string
+---@field usage string
+---@field description? string
+---@field kind "server" | "program"
+---@field run? function | table @ A function or another resource's function reference
+---@field program? string @ The resolved URL
+
+-- A running server command, see server/locked/sdk/terminal.lua
+---@class SdkTerminalSessionState
+---@field id string
+---@field plyId integer
+---@field app SdkServerApp
+---@field command string
+---@field pending (string | table)[] @ Prints waiting for the next tick
+---@field flushQueued? boolean
+---@field lines integer @ Printed so far, against Config.Sdk.terminal.maxOutputLines
+---@field limited? boolean
+---@field nextId integer
+---@field waiting? {id: integer, answer: table, options?: SdkTerminalChoice[]} @ The open ask or choose
+---@field ended? boolean
+
+---@class SdkTerminalRunArgs
+---@field command string
+---@field args string[]
+---@field cwd string
+---@field cols integer
+---@field rows integer
+
 -- The player behind an SDK request, see server/locked/sdk/base/caller.lua
 ---@class SdkCaller
 ---@field plyId integer
@@ -1203,7 +1286,7 @@ function ZykeLaptopServerExports:RegisterMdtWeapon(identifier, serial, modelLabe
 ---@field icon? string @ Lucide icon name or an image URL
 ---@field category? LaptopAppCategory
 ---@field description? string
----@field ui string @ Page shown in the window, a full URL or a path inside the registering resource
+---@field ui? string @ Page shown in the window, a full URL or a path inside the registering resource. Only optional with terminal commands
 ---@field window? LaptopWindowOptions
 ---@field favorite? boolean
 ---@field requiresConnection? boolean

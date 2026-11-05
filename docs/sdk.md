@@ -20,7 +20,7 @@ together. Loading it twice is harmless. It also sets the OS's look as CSS variab
   [getContext](#getcontext), [saveState](#savestatestate), [on and off](#onevent-handler-and-offevent-handler)
 - [Files](#laptopfiles), [account](#laptopaccount), [badge](#laptopbadgecount), [clipboard](#laptopclipboard), [sound](#laptopsound),
   [pay](#laptoppaypaymentid), [storage](#laptopstorage), [rooms](#laptoprooms), [cast](#laptopcast),
-  [share](#laptopshareoptions), [permissions](#laptoppermissions), [racks](#laptopracks)
+  [share](#laptopshareoptions), [permissions](#laptoppermissions), [racks](#laptopracks), [terminal](#laptopterminal)
 - [Events](#events)
 - [The context](#the-context)
 - [The cast viewer page](#the-cast-viewer-page)
@@ -56,7 +56,7 @@ together. Loading it twice is harmless. It also sets the OS's look as CSS variab
 | `Laptop.inGame` | `boolean` | See above. |
 | `Laptop.embedded` | `boolean` | See above. |
 | `Laptop.context` | `Context \| null` | The current [context](#the-context). `null` until the laptop answered. The SDK updates this one object in place as events arrive. |
-| `Laptop.files`, `.clipboard`, `.sound`, `.storage`, `.rooms`, `.cast`, `.permissions`, `.racks` | objects | See below. |
+| `Laptop.files`, `.clipboard`, `.sound`, `.storage`, `.rooms`, `.cast`, `.permissions`, `.racks`, `.terminal` | objects | See below. |
 
 ## Errors
 
@@ -518,6 +518,29 @@ with `error.code`: `noAccess`, `notFound`, `notAllowed`, `notYourWorkload`, `ove
 `rateLimited`, `invalid` or `notReady` (the racks are still loading). Changes made elsewhere are not pushed to the
 page: read again with `get`, or send what you need from your resource with `SendAppMessage` on the server's
 `zyke_laptop:racks:Tick` event.
+
+## Laptop.terminal
+
+```ts
+terminal.active: boolean
+terminal.command: string; terminal.args: string[]; terminal.cwd: string; terminal.size: { cols: number; rows: number }
+terminal.print(text: TerminalText, tone?: TerminalTone): void
+terminal.status(text: TerminalText | null): void
+terminal.clear(): void
+terminal.ask(prompt: TerminalText, options?: { secret?: boolean; initial?: string }): Promise<string | null>
+terminal.choose(prompt: TerminalText, options: TerminalOption[], opts?: { initial?: number }): Promise<number | null>
+terminal.confirm(question: TerminalText, initial?: boolean): Promise<boolean | null>
+terminal.screen.open(options?: { captureCtrlC?: boolean }): Promise<{ cols: number; rows: number }>
+terminal.screen.draw(rows: TerminalText[]): void
+terminal.screen.close(): void
+terminal.onKey(handler), terminal.onResize(handler), terminal.onCancel(handler): () => void
+terminal.exit(): void
+```
+
+For a page the Terminal runs as a program command, registered with `program` in the app's `terminal` field. `active`
+is `false` in any other page, and then every call rejects with `unsupported`. `choose` resolves with a 0-based index,
+and the questions resolve with `null` for Ctrl+C. The page runs in a hidden frame, so animate with timers. See
+[terminal.md](terminal.md) for the whole API and [`zyke_laptop_terminal_template`](../zyke_laptop_terminal_template).
 
 ## Events
 

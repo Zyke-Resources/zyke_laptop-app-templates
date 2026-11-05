@@ -122,6 +122,8 @@ declare namespace ZykeLaptop {
         files?: OpenedFile[];
         // Why the app was opened, when the OS opened it for a notification's action
         launch?: { notificationAction?: NotificationActionEvent };
+        // Set when the Terminal runs the page for a program command, see Laptop.terminal
+        terminal?: TerminalInfo;
     }
 
     interface Events {
@@ -561,6 +563,82 @@ declare namespace ZykeLaptop {
         get(): Promise<Record<Permission, boolean>>;
     }
 
+    // Colours of terminal text; "#rgb" or "#rrggbb" in a segment's color and bg pick exact ones
+    type TerminalTone = "dim" | "accent" | "error" | "success" | "warning" | "bold" | "path" | "user";
+
+    interface TerminalSegment {
+        text: string;
+        tone?: TerminalTone;
+        color?: string;
+        bg?: string;
+    }
+
+    // A string (new lines split it into lines), one segment, or a list of segments and strings that make one line
+    type TerminalText = string | TerminalSegment | Array<TerminalSegment | string>;
+
+    interface TerminalSize {
+        cols: number;
+        rows: number;
+    }
+
+    interface TerminalInfo extends TerminalSize {
+        command: string;
+        args: string[];
+        // The working directory as the shell shows it, such as /home/alex or C:\Users\Alex
+        cwd: string;
+    }
+
+    interface TerminalKey {
+        key: string;
+        code: string;
+        ctrl: boolean;
+        alt: boolean;
+        shift: boolean;
+    }
+
+    type TerminalOption = string | { label: string; hint?: string; disabled?: boolean };
+
+    interface TerminalScreenApi {
+        // Covers the scrollback with a cols x rows grid; every key goes to onKey. With captureCtrlC, Ctrl+C is a key
+        // too, otherwise it closes the screen and ends the program
+        open(options?: { captureCtrlC?: boolean }): Promise<TerminalSize>;
+        // The whole frame, one entry per row; extra rows are dropped and rows are clipped to cols. Calls closer than
+        // 16 ms apart send only the newest frame
+        draw(rows: TerminalText[]): void;
+        close(): void;
+        readonly isOpen: boolean;
+    }
+
+    // The Terminal running this page for a program command, in a hidden frame of the terminal window. The page keeps
+    // the app's SDK features (storage, rooms, pay...). Its frame may be throttled, so animate with timers, not
+    // requestAnimationFrame. Outside a program active is false and the calls reject with "unsupported"
+    interface TerminalApi {
+        readonly active: boolean;
+        readonly command: string;
+        readonly args: string[];
+        readonly cwd: string;
+        readonly size: TerminalSize;
+        // Output lines while the program runs; tone colours a plain string
+        print(value: TerminalText, tone?: TerminalTone): void;
+        // One live line under the output, such as a progress bar; null clears it
+        status(value: TerminalText | null): void;
+        clear(): void;
+        // The typed answer, or null for Ctrl+C
+        ask(prompt: TerminalText, options?: { secret?: boolean; initial?: string }): Promise<string | null>;
+        // The 0-based index of the picked option, or null for Escape or Ctrl+C
+        choose(prompt: TerminalText, options: TerminalOption[], opts?: { initial?: number }): Promise<number | null>;
+        // y or n, empty takes initial (false when left out); null for Ctrl+C
+        confirm(question: TerminalText, initial?: boolean): Promise<boolean | null>;
+        readonly screen: TerminalScreenApi;
+        // Keys while the screen is open; each returns a function that stops listening
+        onKey(handler: (key: TerminalKey) => void): () => void;
+        onResize(handler: (size: TerminalSize) => void): () => void;
+        // Ctrl+C outside a screen that captures it, or the window closing. The program ends right after
+        onCancel(handler: () => void): () => void;
+        // Ends the program; the terminal removes the page and shows its prompt again
+        exit(): void;
+    }
+
     interface Sdk {
         readonly version: number;
         // Resource that owns the page, null in a normal browser
@@ -611,6 +689,7 @@ declare namespace ZykeLaptop {
         off<E extends EventName>(event: E, handler: (data: Events[E]) => void): void;
         // The player's laptop racks; changes are not pushed, read them again with get
         readonly racks: Racks.Api;
+        readonly terminal: TerminalApi;
     }
 }
 

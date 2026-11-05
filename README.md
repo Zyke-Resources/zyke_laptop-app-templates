@@ -12,6 +12,7 @@ Each top-level folder is a working resource. Copy the one closest to what you wa
 | `zyke_laptop_app_template` | An app in plain HTML, CSS and JavaScript: registration with the optional access, price and permission fields, a server round trip, an OS notification, a message pushed from Lua and saved state. |
 | `zyke_laptop_site_template` | A website with several pages, back and forward, and deep links. |
 | `zyke_laptop_react_template` | An app in Vite, React and TypeScript, with the SDK's hooks and types. |
+| `zyke_laptop_terminal_template` | Terminal commands with no window: a server command with a question, a menu, a live status line and a y/n confirm, and a full-screen program drawn in the Terminal. |
 
 ## Examples
 
@@ -31,6 +32,7 @@ More examples ship inside zyke_laptop, in `examples/`, each switched on or off i
 | `examples/police` | `lspd.gov`: an application form on a website, and an app only officers of a set grade get (`access` and `CanUseApp`). Start here for a job-only app. |
 | `examples/mechanic` | `lscustoms.com`: a business site that reads its content from Lua and sets a GPS route to the nearest shop. |
 | `examples/arcade` | Snake and 2048 as websites, with a leaderboard the server checks. |
+| `examples/terminal` | Field Kit, a terminal app: a district radio scanner run on the server, and a game of dodging debris drawn in the Terminal with its best score in `Laptop.storage`. |
 
 ## Docs
 
@@ -38,7 +40,8 @@ More examples ship inside zyke_laptop, in `examples/`, each switched on or off i
 | --- | --- |
 | [`docs/getting-started.md`](docs/getting-started.md) | How apps and sites work, what a resource needs, developing in a browser, testing in game. |
 | [`docs/sdk.md`](docs/sdk.md) | The JavaScript SDK, `window.Laptop`, and its React hooks. |
-| [`docs/lua-api.md`](docs/lua-api.md) | The Lua exports and events: registration, access, payments, storage, data sticks, rooms, casting. |
+| [`docs/lua-api.md`](docs/lua-api.md) | The Lua exports and events: registration, access, payments, storage, data sticks, rooms, casting, Terminal commands. |
+| [`docs/terminal.md`](docs/terminal.md) | Terminal commands: server commands that print and ask questions, and programs that draw full-screen views and games. |
 | [`docs/styling.md`](docs/styling.md) | Matching the OS's look, and what the in-game browser can't do. |
 
 `sdk/` holds `laptop.d.ts` (TypeScript types), `laptop-react.ts` (React hooks), both copies of `zyke_laptop/nui/sdk/`, and `zyke_laptop.lua` (LuaLS definitions of every export). `laptop.js` itself is always loaded from the laptop.

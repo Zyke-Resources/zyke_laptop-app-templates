@@ -21,7 +21,7 @@ Registering (server):
 - [How registration works](#how-registration-works)
 - [RegisterApp](#registerapp), [RegisterSite](#registersite), [UnregisterApp and UnregisterSite](#unregisterapp-and-unregistersite)
 - [SDK fields](#sdk-fields): [access](#access), [price](#price), [permissions](#permissions), [storage](#storage),
-  [payments](#payments), [rooms](#rooms), [cast](#cast)
+  [payments](#payments), [rooms](#rooms), [cast](#cast), [terminal](#terminal)
 
 Server:
 
@@ -71,7 +71,7 @@ local registered, err = exports.zyke_laptop:RegisterApp(app)
 | --- | --- | --- | --- |
 | `id` | `string` | required | Unique app id: letters, digits, `_` and `-`, 64 at most. |
 | `label` | `string` | required | Name shown in the app store, the menus and as the window title. |
-| `ui` | `string` | required | The page. A path inside your resource (`"web/index.html"`, a leading `/` is dropped) becomes `https://cfx-nui-<resource>/web/index.html`. An `https://` address is used as it is. Any other scheme is refused. |
+| `ui` | `string` | required, unless `terminal` has a command | The page. A path inside your resource (`"web/index.html"`, a leading `/` is dropped) becomes `https://cfx-nui-<resource>/web/index.html`. An `https://` address is used as it is. Any other scheme is refused. |
 | `icon` | `string` | `"box"` | A [Lucide](https://lucide.dev/icons) icon name in kebab-case, such as `"shield-check"`, or an image URL. An image must be a full URL such as `https://cfx-nui-my_resource/web/icon.png`; unlike `ui`, a path is not resolved. |
 | `category` | `string` | `"other"` | `"accessories"`, `"internet"`, `"office"`, `"system"`, `"utilities"` or `"other"`. Unknown values become `"other"`. |
 | `description` | `string` | none | Shown on the app's page in the store. |
@@ -272,6 +272,22 @@ Apps only. Turns on `Laptop.cast`. The window sends content, not pixels: your fu
 `Laptop.cast.snapshot(content)`, and what it returns is what every viewer sees. Return plain values, and run images through [`IsCastImageAllowed`](#cast-helpers) and text
 through `ToCastText`. The viewer page loads `https://cfx-nui-zyke_laptop/nui/sdk/laptop-cast.js`, see
 [sdk.md](sdk.md#the-cast-viewer-page).
+
+### terminal
+
+```lua
+terminal = {
+    launch = "stopwatch",                       -- optional: what opening the app runs in the Terminal
+    commands = {
+        {name = "greet", usage = "greet [name]", description = "Say hello", run = function(term, args) end},
+        {name = "stopwatch", description = "A stopwatch", program = "web/stopwatch.html"},
+    },
+},
+```
+
+Apps only. Adds commands to the Terminal: `run` is a server command that gets a session to print and ask questions
+through, `program` a page the Terminal runs in a hidden frame that draws through `Laptop.terminal`. An app with a valid
+command needs no `ui`; opening it runs `launch` in the Terminal. See [terminal.md](terminal.md).
 
 ## IsAtLaptop
 
