@@ -9,7 +9,7 @@ local function registerApp()
         description = T("app:description"),
         ui = "web/index.html",
         preinstalled = true,
-        window = {width = 760, height = 540, minWidth = 520, minHeight = 420, resizable = true},
+        window = {width = 860, height = 600, minWidth = 560, minHeight = 460, resizable = true},
         -- The payees server/bills.lua may make payments to, see Config.bills
         payments = {payees = {"server", "society"}},
     })

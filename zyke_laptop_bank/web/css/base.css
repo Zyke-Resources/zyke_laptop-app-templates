@@ -1,10 +1,15 @@
 /* The SDK sets the --laptop-* variables from the OS's theme, so the page matches every OS in light and dark. The
-   fallbacks only matter when the page is opened on its own */
+   fallbacks only matter when the page is opened on its own. This file holds the page and its controls, views.css the
+   layout of each tab */
 
 *,
 *::before,
 *::after {
     box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
 }
 
 html,
@@ -14,7 +19,7 @@ body {
 }
 
 body {
-    padding: 20px;
+    padding: 18px 20px 20px;
     font-family: var(--laptop-font, system-ui, sans-serif);
     font-size: 14px;
     line-height: 1.45;
@@ -23,17 +28,20 @@ body {
 }
 
 body.is-loading main,
+body.is-loading nav,
 body.is-loading .summary {
     visibility: hidden;
 }
 
 p,
-h2 {
+h2,
+dl,
+dd {
     margin: 0;
 }
 
 h2 {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     font-size: 15px;
     font-weight: 600;
 }
@@ -43,48 +51,6 @@ h2 {
     color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
 }
 
-.summary {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 16px;
-}
-
-.holder {
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.balance-box {
-    text-align: right;
-}
-
-.balance {
-    font-size: 28px;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-}
-
-.columns {
-    display: grid;
-    grid-template-columns: minmax(220px, 300px) 1fr;
-    gap: 16px;
-    align-items: start;
-}
-
-@media (max-width: 600px) {
-    .columns {
-        grid-template-columns: 1fr;
-    }
-}
-
-.stack {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
 .card {
     padding: 16px;
     border: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
@@ -92,19 +58,15 @@ h2 {
     background: var(--laptop-card-bg, rgba(255, 255, 255, 0.08));
 }
 
-.transfer label {
-    display: block;
-    margin-bottom: 12px;
+.card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
 }
 
-.transfer label span {
-    display: block;
-    margin-bottom: 4px;
-    font-size: 12px;
-    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
-}
-
-input {
+input[type="text"],
+input[type="search"] {
     width: 100%;
     height: var(--laptop-control-height, 34px);
     padding: 0 10px;
@@ -120,13 +82,26 @@ input:focus {
     border-color: var(--laptop-accent-bg, #3584e4);
 }
 
+.field {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.field span,
+.picker-label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+}
+
 .button {
-    width: 100%;
     height: var(--laptop-control-height, 34px);
     padding: 0 14px;
     font: inherit;
     font-weight: 600;
     color: var(--laptop-accent-fg, #ffffff);
+    white-space: nowrap;
     border: 0;
     border-radius: var(--laptop-radius-control, 6px);
     background: var(--laptop-accent-bg, #3584e4);
@@ -142,43 +117,30 @@ input:focus {
     cursor: default;
 }
 
-.bills {
-    margin: 0;
+.button.secondary {
+    color: inherit;
+    background: var(--laptop-entry-bg, rgba(255, 255, 255, 0.1));
+}
+
+.button.small {
+    height: 28px;
+    padding: 0 10px;
+    font-size: 13px;
+}
+
+.button.is-asking {
+    color: #ffffff;
+    background: var(--laptop-error, #e01b24);
+}
+
+.link {
     padding: 0;
-    list-style: none;
-}
-
-.bills li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 0;
-    border-top: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
-}
-
-.bills li:first-child {
-    border-top: 0;
-    padding-top: 0;
-}
-
-.bills .title {
-    flex: 1;
-    min-width: 0;
-}
-
-.bills .button {
-    width: auto;
-    flex-shrink: 0;
-}
-
-.bills .paid {
-    flex-shrink: 0;
-    font-size: 12px;
-    color: var(--laptop-success, #26a269);
-}
-
-#bill-error {
-    margin: 12px 0 0;
+    font: inherit;
+    font-size: 13px;
+    color: var(--laptop-accent-bg, #3584e4);
+    border: 0;
+    background: none;
+    cursor: pointer;
 }
 
 .form-error {
@@ -187,37 +149,8 @@ input:focus {
     color: var(--laptop-error, #e01b24);
 }
 
-.transactions {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.transactions li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 10px 0;
-    border-top: 1px solid var(--laptop-borders, rgba(255, 255, 255, 0.15));
-}
-
-.transactions li:first-child {
-    border-top: 0;
-    padding-top: 0;
-}
-
-.transactions .title {
-    font-weight: 500;
-}
-
-.transactions .meta {
+.hint {
     font-size: 12px;
-    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
-    overflow-wrap: anywhere;
-}
-
-.transactions .empty {
     color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
 }
 
@@ -227,8 +160,13 @@ input:focus {
     font-variant-numeric: tabular-nums;
 }
 
-.amount.is-in {
+.is-in {
     color: var(--laptop-success, #26a269);
+}
+
+.amount.is-failed {
+    color: var(--laptop-dim-fg, rgba(255, 255, 255, 0.55));
+    text-decoration: line-through;
 }
 
 .page-error {
@@ -242,12 +180,4 @@ input:focus {
     padding: 24px;
     text-align: center;
     background: var(--laptop-window-bg, #242424);
-}
-
-.page-error[hidden] {
-    display: none;
-}
-
-.page-error .button {
-    width: auto;
 }

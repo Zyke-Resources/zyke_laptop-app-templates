@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fleeca Banking</title>
     <link rel="icon" href="data:,">
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/views.css">
     <script src="https://cfx-nui-zyke_laptop/nui/sdk/laptop.js"></script>
-    <script type="module" src="app.js"></script>
+    <script type="module" src="js/app.js"></script>
 </head>
 <body class="is-loading">
     <header class="summary">
@@ -21,38 +22,200 @@
         </div>
     </header>
 
-    <main class="columns">
-        <div class="stack">
-            <form class="card transfer" id="transfer" novalidate>
+    <nav class="tabs" id="tabs">
+        <button type="button" data-tab="overview" data-text="tab:overview"></button>
+        <button type="button" data-tab="send" data-text="tab:send"></button>
+        <button type="button" data-tab="requests"><span data-text="tab:requests"></span><span class="count" id="request-count" hidden></span></button>
+        <button type="button" data-tab="standing" data-text="tab:standing"></button>
+        <button type="button" data-tab="payees" data-text="tab:payees"></button>
+        <button type="button" data-tab="history" data-text="tab:history"></button>
+    </nav>
+
+    <main id="views">
+        <section class="view" data-view="overview">
+            <div class="columns">
+                <div class="stack">
+                    <section class="card">
+                        <h2 data-text="page:thisMonth"></h2>
+                        <dl class="month-totals" id="month-totals"></dl>
+                        <div class="bars" id="month-bars"></div>
+                    </section>
+                    <section class="card">
+                        <h2 data-text="page:bills"></h2>
+                        <ul class="list bills" id="bills"></ul>
+                        <p class="form-error" id="bill-error" hidden></p>
+                    </section>
+                </div>
+                <div class="stack">
+                    <section class="card" id="overview-requests" hidden>
+                        <h2 data-text="page:waitingForYou"></h2>
+                        <ul class="list" id="overview-incoming"></ul>
+                    </section>
+                    <section class="card">
+                        <div class="card-head">
+                            <h2 data-text="page:recent"></h2>
+                            <button class="link" type="button" data-goto="history" data-text="page:seeAll"></button>
+                        </div>
+                        <ul class="list transactions" id="recent"></ul>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <section class="view" data-view="send">
+            <form class="card flow narrow" id="send-form" novalidate>
                 <h2 data-text="page:transfer"></h2>
-                <label>
-                    <span data-text="page:recipient"></span>
-                    <input name="targetId" type="text" inputmode="numeric" autocomplete="off" data-placeholder="page:recipientPlaceholder">
-                </label>
-                <label>
-                    <span data-text="page:amount"></span>
-                    <input name="amount" type="text" inputmode="numeric" autocomplete="off" placeholder="0">
-                </label>
-                <label>
-                    <span data-text="page:note"></span>
-                    <input name="note" type="text" autocomplete="off" data-placeholder="page:notePlaceholder">
-                </label>
-                <p class="form-error" id="form-error" hidden></p>
-                <button class="button" type="submit" id="send" data-text="page:send"></button>
+                <div class="step-edit">
+                    <div class="picker-slot"></div>
+                    <label class="field">
+                        <span data-text="page:amount"></span>
+                        <input name="amount" type="text" inputmode="numeric" autocomplete="off" placeholder="0">
+                    </label>
+                    <label class="field">
+                        <span data-text="page:note"></span>
+                        <input name="note" type="text" autocomplete="off" data-placeholder="page:notePlaceholder">
+                    </label>
+                </div>
+                <div class="step-confirm" hidden></div>
+                <p class="form-error" hidden></p>
+                <div class="actions"></div>
             </form>
+        </section>
 
+        <section class="view" data-view="requests">
+            <div class="columns">
+                <form class="card flow" id="request-form" novalidate>
+                    <h2 data-text="page:newRequest"></h2>
+                    <div class="step-edit">
+                        <div class="picker-slot"></div>
+                        <label class="field">
+                            <span data-text="page:amount"></span>
+                            <input name="amount" type="text" inputmode="numeric" autocomplete="off" placeholder="0">
+                        </label>
+                        <label class="field">
+                            <span data-text="page:note"></span>
+                            <input name="note" type="text" autocomplete="off" data-placeholder="page:requestNotePlaceholder">
+                        </label>
+                    </div>
+                    <div class="step-confirm" hidden></div>
+                    <p class="form-error" hidden></p>
+                    <div class="actions"></div>
+                </form>
+                <div class="stack">
+                    <section class="card">
+                        <h2 data-text="page:incomingRequests"></h2>
+                        <ul class="list" id="incoming"></ul>
+                    </section>
+                    <section class="card">
+                        <h2 data-text="page:outgoingRequests"></h2>
+                        <ul class="list" id="outgoing"></ul>
+                    </section>
+                </div>
+            </div>
+            <p class="form-error" id="request-error" hidden></p>
+        </section>
+
+        <section class="view" data-view="standing">
+            <div class="columns">
+                <form class="card flow" id="standing-form" novalidate>
+                    <h2 data-text="page:newStanding"></h2>
+                    <div class="step-edit">
+                        <div class="picker-slot"></div>
+                        <label class="field">
+                            <span data-text="page:amount"></span>
+                            <input name="amount" type="text" inputmode="numeric" autocomplete="off" placeholder="0">
+                        </label>
+                        <label class="field">
+                            <span data-text="page:intervalDays"></span>
+                            <input name="intervalDays" type="text" inputmode="numeric" autocomplete="off" value="7">
+                        </label>
+                        <label class="field">
+                            <span data-text="page:note"></span>
+                            <input name="note" type="text" autocomplete="off" data-placeholder="page:notePlaceholder">
+                        </label>
+                    </div>
+                    <div class="step-confirm" hidden></div>
+                    <p class="form-error" hidden></p>
+                    <div class="actions"></div>
+                </form>
+                <section class="card">
+                    <h2 data-text="page:standingList"></h2>
+                    <ul class="list" id="standing"></ul>
+                    <p class="form-error" id="standing-error" hidden></p>
+                </section>
+            </div>
+        </section>
+
+        <section class="view" data-view="payees">
+            <div class="columns">
+                <form class="card flow" id="payee-form" novalidate>
+                    <h2 data-text="page:addPayee"></h2>
+                    <div class="step-edit">
+                        <div class="picker-slot" data-no-payees></div>
+                    </div>
+                    <div class="step-confirm" hidden></div>
+                    <p class="form-error" hidden></p>
+                    <div class="actions"></div>
+                </form>
+                <section class="card">
+                    <h2 data-text="page:payees"></h2>
+                    <ul class="list" id="payees"></ul>
+                    <p class="form-error" id="payee-error" hidden></p>
+                </section>
+            </div>
+        </section>
+
+        <section class="view" data-view="history">
             <section class="card">
-                <h2 data-text="page:bills"></h2>
-                <ul class="bills" id="bills"></ul>
-                <p class="form-error" id="bill-error" hidden></p>
+                <div class="filters">
+                    <div class="segmented" id="filter-direction">
+                        <button type="button" data-value="all" data-text="filter:all"></button>
+                        <button type="button" data-value="in" data-text="filter:in"></button>
+                        <button type="button" data-value="out" data-text="filter:out"></button>
+                    </div>
+                    <div class="segmented" id="filter-kind">
+                        <button type="button" data-value="" data-text="filter:allKinds"></button>
+                        <button type="button" data-value="transfer" data-text="kind:transfer"></button>
+                        <button type="button" data-value="request" data-text="kind:request"></button>
+                        <button type="button" data-value="standing" data-text="kind:standing"></button>
+                        <button type="button" data-value="bill" data-text="kind:bill"></button>
+                    </div>
+                    <input class="search" id="filter-search" type="search" autocomplete="off" data-placeholder="page:search">
+                </div>
+                <ul class="list transactions" id="history"></ul>
+                <button class="button secondary more" type="button" id="history-more" data-text="page:loadMore" hidden></button>
             </section>
-        </div>
-
-        <section class="card history">
-            <h2 data-text="page:history"></h2>
-            <ul class="transactions" id="transactions"></ul>
+            <section class="card">
+                <h2 data-text="page:monthly"></h2>
+                <table class="months">
+                    <thead>
+                        <tr>
+                            <th data-text="page:month"></th>
+                            <th data-text="filter:in"></th>
+                            <th data-text="filter:out"></th>
+                            <th data-text="page:net"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="months"></tbody>
+                </table>
+            </section>
         </section>
     </main>
+
+    <!-- Copied into every .picker-slot: how the player names the recipient -->
+    <template id="picker-template">
+        <div class="picker">
+            <span class="picker-label" data-text="page:recipient"></span>
+            <div class="segmented picker-modes">
+                <button type="button" data-by="phone" data-text="by:phone"></button>
+                <button type="button" data-by="name" data-text="by:name"></button>
+                <button type="button" data-by="id" data-text="by:id"></button>
+                <button type="button" data-by="payee" data-text="by:payee"></button>
+            </div>
+            <input class="picker-input" type="text" autocomplete="off">
+            <div class="chips picker-payees" hidden></div>
+        </div>
+    </template>
 
     <div class="page-error" id="page-error" hidden>
         <p id="page-error-text"></p>

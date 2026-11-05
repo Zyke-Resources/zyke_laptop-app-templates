@@ -17,7 +17,7 @@ Each top-level folder is a working resource. Copy the one closest to what you wa
 
 | Resource | What it shows |
 | --- | --- |
-| `zyke_laptop_bank` | Fleeca Banking: transfers checked on the server, a transaction history table, and bills paid on the OS's pay sheet (`CreatePayment` and `Laptop.pay`). |
+| `zyke_laptop_bank` | Fleeca Banking: transfers by phone number, name or server ID with a confirm step, payment requests, standing payments run by the server, saved payees, a filtered history with a monthly summary, and bills paid on the OS's pay sheet (`CreatePayment` and `Laptop.pay`). |
 | `zyke_laptop_shop` | Corner Supply: selling inventory items. The server prices the order, the player pays on the pay sheet, the items are given when the payment settles or refunded when they can't be. |
 | `zyke_laptop_garage` | My Vehicles: owned vehicles through zyke_lib, a search, and a GPS route to a vehicle that is out. |
 | `zyke_laptop_notes` | Notes: its own `.note` file type, opened and saved through the OS's file chooser, with a badge for unsaved work. |
